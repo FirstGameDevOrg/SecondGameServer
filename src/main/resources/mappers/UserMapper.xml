@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.FirstGame.server.repository.UserMapper">
+    <resultMap type="com.FirstGame.server.common.BO.User" id="userResultMap" >
+        <!-- id：设置ResultMap的id -->
+        <id property="userId" column="user_id"/>
+        <!-- 定义普通属性 -->
+        <result property="userName" column="user_name"/>
+        <result property="passWord" column="pass_word"/>
+        <result property="sex" column="sex"/>
+        <result property="emailAddress" column="email_address"/>
+        <result property="phone" column="phone"/>
+        <result property="friends" column="friends"/>
+    </resultMap>
+    <select id = "selectAll" resultMap="userResultMap">
+        select * from user
+    </select>
+    <!-- 插入用户操作-->
+    <insert id="insertUser"
+            parameterType="com.FirstGame.server.common.BO.User" >
+        insert into user(user_name,pass_word,sex,email_address,phone)
+        values ( #{userName}, #{passWord},#{sex}, #{emailAddress}, #{phone})
+    </insert>
+    <!--通过名字或者id查找用户-->
+    <select id="selectByIdOrName" resultType="com.FirstGame.server.common.BO.User">
+        select * from user
+        <where>
+            <if test = "id != null">
+                and id = #{id}
+            </if>
+            <if test = "name != null">
+                and name = #{userName}
+            </if>
+        </where>
+    </select>
+    <!--添加好友
+    <update id="addFriend" parameterType="com.FirstGame.server.common.BO.User">
+        UPDATE user
+        SET friends = #{friendList}
+        WHERE id = #{id}
+    </update>
+    -->
+</mapper>
