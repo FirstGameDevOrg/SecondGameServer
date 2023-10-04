@@ -20,5 +20,4 @@ public class User implements Serializable {
     private String emailAddress;
     private String phone;
     private String friends;
-
 }

@@ -14,7 +14,9 @@ java {
 ext {
 	fastjsonVersion = '2.0.40'
 	mysqlVersion = '8.0.33'
-	commonsVersion = '3.13.0'
+	commonslang3Version = '3.13.0'
+	commonspool2Version = '2.11.1'
+	jedisVersion = '5.0.1'
 }
 
 configurations {
@@ -54,7 +56,10 @@ dependencies {
 	//自己添加
 	implementation "com.alibaba.fastjson2:fastjson2:$fastjsonVersion"
 	implementation "mysql:mysql-connector-java:$mysqlVersion"
-	implementation "org.apache.commons:commons-lang3:$commonsVersion"
+	implementation "org.apache.commons:commons-lang3:$commonslang3Version"
+	implementation "org.apache.commons:commons-pool2:$commonspool2Version"
+	implementation "redis.clients:jedis:$jedisVersion"
+
 
 }
 

@@ -24,14 +24,14 @@
         values ( #{userName}, #{passWord},#{sex}, #{emailAddress}, #{phone})
     </insert>
     <!--通过名字或者id查找用户-->
-    <select id="selectByIdOrName" resultType="com.FirstGame.server.common.BO.User">
+    <select id="selectByIdOrName" resultMap="userResultMap">
         select * from user
         <where>
             <if test = "id != null">
-                and id = #{id}
+                and user_id = #{id}
             </if>
             <if test = "name != null">
-                and name = #{userName}
+                and user_name = #{name}
             </if>
         </where>
     </select>

@@ -7,7 +7,9 @@ import com.FirstGame.server.repository.UserMapper;
 import com.FirstGame.server.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserServiceImp implements UserService {
     @Autowired
     private UserMapper userMapper;
