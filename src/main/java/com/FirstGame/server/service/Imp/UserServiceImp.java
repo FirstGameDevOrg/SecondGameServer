@@ -78,7 +78,12 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Boolean addUser(Long userId) {
+    public Boolean addUser(Long userId, Long friendId) {
+        if( friendId == null ){
+            return false;
+        }
+        User user = userMapper.selectByIdOrName(userId,null);
+
         return false;
     }
 }

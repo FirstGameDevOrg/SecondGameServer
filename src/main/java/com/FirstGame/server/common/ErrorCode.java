@@ -12,9 +12,9 @@ public enum ErrorCode {
     INCORRECTPASSWORD(1004,"密码错误"),
     ;
 
-    @Getter
-    private int code;
-    private String msg;
+    private final int code;
+    private final String msg;
+
     private ErrorCode(int code, String msg) {
         this.code = code;
         this.msg = msg;

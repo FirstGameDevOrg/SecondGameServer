@@ -33,7 +33,8 @@ public interface UserService {
     /**
      * 添加好友
      * @param userId
+     * @param friendId
      * @return
      */
-    public Boolean addUser(Long userId);
+    public Boolean addUser(Long userId,Long friendId);
 }

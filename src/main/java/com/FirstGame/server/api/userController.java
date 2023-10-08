@@ -1,7 +1,9 @@
 package com.FirstGame.server.api;
 
+import com.FirstGame.server.common.BO.RemoteAddress;
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
+import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
 import com.FirstGame.server.repository.UserMapper;
 import com.FirstGame.server.service.UserService;
@@ -34,7 +36,7 @@ public class userController {
      * @return
      */
     @RequestMapping(value = "/register", method = POST)
-    public String registerUser(@RequestBody User request){
+    public BaseResponse registerUser(@RequestBody User request){
         log.info("registerUser HttpServletRequest : {}" ,JSON.toJSON(request));
         //去除空格
         request.setUserName(request.getUserName().trim());
@@ -43,13 +45,13 @@ public class userController {
         if( Integer.valueOf(1).equals(status) ){
             try{
                 userMapper.insertUser(request);
-                return "注册成功";
+                return new BaseResponse.Builder().code(200).msg("注册成功").build();
             }catch (Exception e){
                 log.error("registerUser error ",e);
-                return ErrorCode.DATABASEFAILED.getMsg();
+                return new BaseResponse.Builder().code(500).msg(ErrorCode.DATABASEFAILED.getMsg()).build();
             }
         }else{
-            return ErrorCode.getMsg(status);
+            return new BaseResponse.Builder().code(500).msg(ErrorCode.getMsg(status)).build();
         }
     }
 
@@ -60,12 +62,14 @@ public class userController {
      * @return
      */
     @RequestMapping(value = "/login", method = POST)
-    public String loginUser(@NonNull String userName,@NonNull  String passWord){
+    public BaseResponse<RemoteAddress> loginUser(@NonNull String userName, @NonNull  String passWord){
         int status = userService.checkPassword(userName,passWord);
         if( Integer.valueOf(1).equals(status) ){
-            return "登录成功";
+            return new BaseResponse.Builder<RemoteAddress>().code(200).msg("登录成功")
+                    .data(new RemoteAddress("127.0.0.1",8080)).build();
         }else{
-            return ErrorCode.getMsg(status);
+            return new BaseResponse.Builder<RemoteAddress>().code(500).msg(ErrorCode.getMsg(status))
+                    .data(new RemoteAddress()).build();
         }
     }
 
@@ -75,6 +79,14 @@ public class userController {
         log.info("searchUser userId : {} userName : {}",userId,userName);
         UserInRedis userInRedis = userService.searchUser(userId,userName);
         return Objects.requireNonNullElse(userInRedis, "用户不存在");
+    }
+
+    @RequestMapping(value = "/addFriend", method = POST)
+    public Object addFriend(Long userId){
+       if( userId == null ){
+           return null;
+       }
+       return null;
     }
 
     @RequestMapping(value = "/test", method = POST)
