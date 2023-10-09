@@ -2,6 +2,7 @@ package com.FirstGame.server.service;
 
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
+import com.FirstGame.server.common.BaseResponse;
 
 public interface UserService {
     /**
@@ -18,7 +19,8 @@ public interface UserService {
      * @param password
      * @return
      */
-    public int checkPassword(String userName, String password);
+    public BaseResponse checkPassword(String userName, String password);
+
 
 
     /**
@@ -37,4 +39,6 @@ public interface UserService {
      * @return
      */
     public Boolean addUser(Long userId,Long friendId);
+
+    public BaseResponse insertUser(User user);
 }

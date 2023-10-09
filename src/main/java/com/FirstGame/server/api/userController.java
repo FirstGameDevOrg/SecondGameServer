@@ -5,9 +5,12 @@ import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
+import com.FirstGame.server.common.Token;
 import com.FirstGame.server.repository.UserMapper;
 import com.FirstGame.server.service.UserService;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -29,6 +34,13 @@ public class userController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private Token token;
+
+    private final String host = "127.0.0.1";
+
+    private final int port = 8080;
 
     /**
      * 用户注册
@@ -44,7 +56,11 @@ public class userController {
         log.info("registerUser status : {}",status);
         if( Integer.valueOf(1).equals(status) ){
             try{
-                userMapper.insertUser(request);
+                BaseResponse response = userService.insertUser(request);
+                if( response != null && !response.isSuccess() ){
+                    log.info("registerUser response : {}",JSON.toJSON(response));
+                    return new BaseResponse.Builder().code(500).msg(ErrorCode.DATABASEFAILED.getMsg()).build();
+                }
                 return new BaseResponse.Builder().code(200).msg("注册成功").build();
             }catch (Exception e){
                 log.error("registerUser error ",e);
@@ -62,14 +78,22 @@ public class userController {
      * @return
      */
     @RequestMapping(value = "/login", method = POST)
-    public BaseResponse<RemoteAddress> loginUser(@NonNull String userName, @NonNull  String passWord){
-        int status = userService.checkPassword(userName,passWord);
-        if( Integer.valueOf(1).equals(status) ){
-            return new BaseResponse.Builder<RemoteAddress>().code(200).msg("登录成功")
-                    .data(new RemoteAddress("127.0.0.1",8080)).build();
+    public BaseResponse<JSONObject> loginUser(@NonNull String userName, @NonNull  String passWord){
+        log.info("loginUser");
+        BaseResponse baseResponse = userService.checkPassword(userName,passWord);
+        log.info("loginUser response : {}",JSON.toJSON(baseResponse));
+        if( baseResponse.isSuccess() ){
+            JSONObject params = new JSONObject();
+            params.put("RemoteHost",host);
+            params.put("RemotePort",String.valueOf(port));
+            params.put(Token.tokenKey, token.generatedToken(
+                    baseResponse.getData() != null ? (User) baseResponse.getData() : null));
+            log.info("loginUser params : {}",params);
+            return new BaseResponse.Builder<JSONObject>().code(200).msg("登录成功")
+                    .data(params).isSuccess(true).build();
         }else{
-            return new BaseResponse.Builder<RemoteAddress>().code(500).msg(ErrorCode.getMsg(status))
-                    .data(new RemoteAddress()).build();
+            return new BaseResponse.Builder<JSONObject>().code(500).msg(baseResponse.getMsg())
+                    .data(null).isSuccess(false).build();
         }
     }
 

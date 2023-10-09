@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     SUCCESS(1,"成功"),
-    DATABASEFAILED(1000,"数据库错误"),
-    MISSINFORMATION(1001,"缺失用户名或者密码"),
-    DUPLICATEUSERNAME(1002,"用户名重复"),
-    USERNOTEXIST(1003,"用户不存在"),
-    INCORRECTPASSWORD(1004,"密码错误"),
+    DATABASEFAILED(1001,"数据库错误"),
+    MISSINFORMATION(1002,"缺失用户名或者密码"),
+    DUPLICATEUSERNAME(1003,"用户名重复"),
+    USERNOTEXIST(1004,"用户不存在"),
+    INCORRECTPASSWORD(1005,"密码错误"),
     ;
 
     private final int code;

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 @Slf4j
-@PropertySource({"classpath:resources/nettyServer.properties"})
+@PropertySource({"classpath:nettyServer.properties"})
 public class NettyServer {
     @Value("${netty.server.port}")
     private int port;

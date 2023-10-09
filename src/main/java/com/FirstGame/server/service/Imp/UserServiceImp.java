@@ -3,6 +3,7 @@ package com.FirstGame.server.service.Imp;
 
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
+import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
 import com.FirstGame.server.common.TransferUtils;
 import com.FirstGame.server.repository.JedisClientUtils;
@@ -37,23 +38,23 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public int checkPassword(String userName,String password) {
+    public BaseResponse checkPassword(String userName,String password) {
         if( StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
-            return ErrorCode.MISSINFORMATION.getCode();
+            return BaseResponse.fail(ErrorCode.MISSINFORMATION.getCode(),ErrorCode.MISSINFORMATION.getMsg());
         }
         User user =userMapper.selectByIdOrName(null,userName);
         if( user == null ){
-            return ErrorCode.USERNOTEXIST.getCode();
+            return BaseResponse.fail(ErrorCode.USERNOTEXIST.getCode(),ErrorCode.USERNOTEXIST.getMsg());
         }
         if( !user.getPassWord().equals(password) ){
-            return ErrorCode.INCORRECTPASSWORD.getCode();
+            return BaseResponse.fail(ErrorCode.INCORRECTPASSWORD.getCode(),ErrorCode.INCORRECTPASSWORD.getMsg());
         }
         UserInRedis userInRedis = transferUtils.convertToUserInRedis(user);
         userInRedis.setOnline(true);
         //过期时间为120秒
         JedisClientUtils.setex(String.valueOf(userInRedis.getUserId()),
                 JSON.toJSON(userInRedis).toString(),120 );
-        return ErrorCode.SUCCESS.getCode();
+        return BaseResponse.success(user);
     }
 
 
@@ -85,5 +86,14 @@ public class UserServiceImp implements UserService {
         User user = userMapper.selectByIdOrName(userId,null);
 
         return false;
+    }
+
+    @Override
+    public BaseResponse insertUser(User user) {
+        int res = userMapper.insertUser(user);
+        if( res == 0 ){
+            return BaseResponse.fail();
+        }
+        return BaseResponse.success();
     }
 }
