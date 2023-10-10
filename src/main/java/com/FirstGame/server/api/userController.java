@@ -1,6 +1,6 @@
 package com.FirstGame.server.api;
 
-import com.FirstGame.server.common.BO.RemoteAddress;
+
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
@@ -10,7 +10,6 @@ import com.FirstGame.server.repository.UserMapper;
 import com.FirstGame.server.service.UserService;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;

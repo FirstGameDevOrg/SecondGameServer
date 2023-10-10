@@ -8,13 +8,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-//@Component
+
+@Component
 @Slf4j
 @PropertySource({"classpath:nettyServer.properties"})
 public class NettyServer {
@@ -25,7 +25,7 @@ public class NettyServer {
     @Value("${netty.server.soKeepAlive}")
     private boolean soKeepAlive;
 
-    @PostConstruct
+
     public void run() throws Exception {
         log.info("Netty server is prepared to start port :{} soBacklog : {} soKeepAlive : {}",
                 port, soBacklog, soKeepAlive);
@@ -45,7 +45,7 @@ public class NettyServer {
                     .childOption(ChannelOption.SO_KEEPALIVE,soKeepAlive);
             // 绑定端口，开始接收进来的连接
             ChannelFuture cf = strap.bind(port).sync();
-            log.info(NettyServer.class.getName() + " started and listen on " + cf.channel().localAddress()+":"+port);
+            log.info(NettyServer.class.getName() + " started and listen on " + cf.channel().localAddress());
             // 等待服务器  socket 关闭 。
             cf.channel().closeFuture().sync();
         }catch (Exception e){
