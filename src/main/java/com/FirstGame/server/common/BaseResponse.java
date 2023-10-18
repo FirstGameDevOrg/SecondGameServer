@@ -1,11 +1,13 @@
 package com.FirstGame.server.common;
 
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import lombok.Data;
 import redis.clients.jedis.Response;
 
 import java.io.Serializable;
 
 @Data
+@ProtobufClass
 public class BaseResponse<T> implements Serializable {
 
     private Boolean success;

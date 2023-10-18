@@ -21,8 +21,6 @@ public interface UserService {
      */
     public BaseResponse checkPassword(String userName, String password);
 
-
-
     /**
      * 查找用户
      *

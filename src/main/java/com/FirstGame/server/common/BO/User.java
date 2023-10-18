@@ -1,14 +1,18 @@
 package com.FirstGame.server.common.BO;
 
 
+import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
+@ProtobufClass
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Serializable {
