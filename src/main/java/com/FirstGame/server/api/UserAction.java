@@ -16,22 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Component
-@RestController
 @ActionController(UserCmd.cmd)
 public class UserAction {
-
+    @Autowired
     private UserMapper userMapper;
+    @Autowired
     private UserService userService;
 
-    @Autowired
-    public UserAction(UserService userService) {
-        this.userService = userService;
-    }
 
-    @Autowired
-    public UserAction(UserMapper userMapper){
-        this.userMapper = userMapper;
-    }
+//    @Autowired
+//    public UserAction(UserService userService) {
+//        this.userService = userService;
+//    }
+//
+//    @Autowired
+//    public UserAction(UserMapper userMapper){
+//        this.userMapper = userMapper;
+//    }
 
     /**
      * 用户注册
@@ -50,15 +51,15 @@ public class UserAction {
                 BaseResponse response = userService.insertUser(request);
                 if( response != null && !response.isSuccess() ){
                     log.info("registerUser response : {}",JSON.toJSON(response));
-                    return new BaseResponse.Builder().code(500).msg(ErrorCode.DATABASEFAILED.getMsg()).build();
+                    return BaseResponse.fail(500,ErrorCode.DATABASEFAILED.getMsg());
                 }
-                return new BaseResponse.Builder().code(200).msg("注册成功").build();
+                return BaseResponse.success(200,"注册成功");
             }catch (Exception e){
                 log.error("registerUser error ",e);
-                return new BaseResponse.Builder().code(500).msg(ErrorCode.DATABASEFAILED.getMsg()).build();
+                return BaseResponse.fail(500,ErrorCode.DATABASEFAILED.getMsg());
             }
         }else{
-            return new BaseResponse.Builder().code(500).msg(ErrorCode.getMsg(status)).build();
+            return BaseResponse.fail(500,ErrorCode.getMsg(status));
         }
     }
 

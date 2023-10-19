@@ -87,10 +87,10 @@ public class userController {
                     baseResponse.getData() != null ? (User) baseResponse.getData() : null));
             log.info("loginUser params : {}",params);
             return new BaseResponse.Builder<JSONObject>().code(200).msg("登录成功")
-                    .data(params).isSuccess(true).build();
+                    .data(params).success(true).build();
         }else{
             return new BaseResponse.Builder<JSONObject>().code(500).msg(baseResponse.getMsg())
-                    .data(null).isSuccess(false).build();
+                    .data(null).success(false).build();
         }
     }
 

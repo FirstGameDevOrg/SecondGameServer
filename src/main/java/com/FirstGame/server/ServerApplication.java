@@ -2,12 +2,14 @@ package com.FirstGame.server;
 
 import com.FirstGame.server.logic.HallLogicServer;
 import com.FirstGame.server.repository.JedisUtils;
+import com.iohao.game.action.skeleton.ext.spring.ActionFactoryBeanForSpring;
 import com.iohao.game.external.core.netty.simple.NettySimpleHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -43,6 +45,12 @@ public class ServerApplication {
 			context.close();
 		}));
 
+	}
+
+	@Bean
+	public ActionFactoryBeanForSpring actionFactoryBean() {
+		// 将业务框架交给 spring 管理
+		return ActionFactoryBeanForSpring.me();
 	}
 
 }

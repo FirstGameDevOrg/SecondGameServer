@@ -26,24 +26,25 @@ public class BaseResponse<T> implements Serializable {
         this.success = isSuccess;
     }
 
+    public BaseResponse(){}
+
     public static <T> BaseResponse<T> success() {
         return new BaseResponse<>(null,"success",null,true);
+    }
+    public static <T> BaseResponse<T> success(int code,String msg) {
+        return new BaseResponse<>(code ,msg, null,true);
+    }
+
+    public static <T> BaseResponse<T> success(T data) {
+        return new BaseResponse<>(null ,null, data,true);
     }
 
     public static <T> BaseResponse<T> fail() {
         return new BaseResponse<>(null, "fail", null,false);
     }
 
-    public static <T> BaseResponse<T> success(int code,String msg) {
-        return new BaseResponse<>(code ,msg, null,true);
-    }
-
     public static <T> BaseResponse<T> fail(int code, String msg) {
         return new BaseResponse<>(code, msg, null,false);
-    }
-
-    public static <T> BaseResponse<T> success(T data) {
-        return new BaseResponse<>(null ,null, data,true);
     }
 
     public static <T> BaseResponse<T> fail(T data) {
@@ -74,8 +75,8 @@ public class BaseResponse<T> implements Serializable {
             return this;
         }
 
-        public Builder<T> isSuccess(Boolean isSuccess) {
-            this.success = isSuccess;
+        public Builder<T> success(Boolean success) {
+            this.success = success;
             return this;
         }
 

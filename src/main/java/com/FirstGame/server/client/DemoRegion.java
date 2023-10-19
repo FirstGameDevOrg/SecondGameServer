@@ -21,6 +21,7 @@ package com.FirstGame.server.client;
 
 import com.FirstGame.server.api.UserCmd;
 import com.FirstGame.server.common.BO.User;
+import com.FirstGame.server.common.BaseResponse;
 import com.iohao.game.common.kit.log.IoGameLoggerFactory;
 import com.iohao.game.external.client.AbstractInputCommandRegion;
 import org.slf4j.Logger;
@@ -43,10 +44,11 @@ public class DemoRegion extends AbstractInputCommandRegion {
         User request = new User();
         request.setUserName("IoGame");
         request.setPassWord("IoGame");
+        request.setSex(1);
 
         // ---------------- 模拟请求 1-0 ----------------
-        ofCommand(UserCmd.registerUser).callback(User.class, result -> {
-            User value = result.getValue();
+        ofCommand(UserCmd.registerUser).callback(BaseResponse.class, result -> {
+            BaseResponse value = result.getValue();
             log.info("value : {}", value);
         }).setDescription("register").setRequestData(request);
 
