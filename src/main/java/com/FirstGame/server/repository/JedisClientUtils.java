@@ -61,7 +61,6 @@ public class JedisClientUtils {
      */
     public static Long del(String key) {
         try (Jedis jedis = JedisUtils.getInstance()) {
-            Long result = jedis.del(key);
             return jedis.del(key);
         } catch (Exception e){
             log.error("del命令操作失败，参数key：{}", key,e);

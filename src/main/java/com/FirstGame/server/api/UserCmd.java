@@ -6,7 +6,7 @@ public interface UserCmd {
     /** 子路由 注册 */
     int registerUser = 0;
     /** 子路由 jackson */
-    int jackson = 1;
+    int loginUser = 1;
     /** 子路由 list */
     int list = 2;
 }

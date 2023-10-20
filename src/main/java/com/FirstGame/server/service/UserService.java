@@ -15,11 +15,27 @@ public interface UserService {
     /**
      * 校验登录密码
      * 正确以后，储存在内存中
+     *
      * @param userName
-     * @param password
      * @return
      */
-    public BaseResponse checkPassword(String userName, String password);
+    public BaseResponse selectUserByName(String userName);
+
+    /**
+     * 设置key所对的用户信息
+     * @param key
+     * @param user
+     * @return
+     */
+    public Boolean setUserInRedis(String key,User user);
+
+    /**
+     * 删除旧key
+     * 更新key，或者value所对的用户信息
+     * @param key
+     * @return
+     */
+    public BaseResponse updateUserInRedis(String key);
 
     /**
      * 查找用户

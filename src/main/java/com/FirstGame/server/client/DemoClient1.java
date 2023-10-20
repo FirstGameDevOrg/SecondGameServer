@@ -28,14 +28,14 @@ import java.util.List;
  * @author 渔民小镇
  * @date 2023-07-17
  */
-public class DemoClient {
+public class DemoClient1 {
     public static void main(String[] args) {
         // 关闭模拟请求相关日志
         ClientUserConfigs.closeLog();
 
         // 模拟请求数据
         List<InputCommandRegion> inputCommandRegions = List.of(
-                new DemoRegion()
+                new DemoRegion1()
         );
 
         // 启动模拟客户端

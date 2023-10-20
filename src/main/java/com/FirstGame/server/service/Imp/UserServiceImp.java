@@ -5,6 +5,7 @@ import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
+import com.FirstGame.server.common.Token;
 import com.FirstGame.server.common.TransferUtils;
 import com.FirstGame.server.repository.JedisClientUtils;
 import com.FirstGame.server.repository.UserMapper;
@@ -24,10 +25,13 @@ public class UserServiceImp implements UserService {
     @Autowired
     private TransferUtils transferUtils;
 
+    @Autowired
+    private Token token;
+
     @Override
     public int checkUser(User user) {
         if( StringUtils.isEmpty(user.getUserName()) || StringUtils.isEmpty(user.getPassWord()) ){
-            return ErrorCode.MISSINFORMATION.getCode();
+            return ErrorCode.MISSUSERINFO.getCode();
         }
         String userName = user.getUserName();
         User user1 =userMapper.selectByIdOrName(null,userName);
@@ -38,25 +42,38 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public BaseResponse checkPassword(String userName,String password) {
-        if( StringUtils.isEmpty(userName) || StringUtils.isEmpty(password)){
-            return BaseResponse.fail(ErrorCode.MISSINFORMATION.getCode(),ErrorCode.MISSINFORMATION.getMsg());
+    public BaseResponse selectUserByName(String userName) {
+        if( StringUtils.isEmpty(userName) ){
+            return BaseResponse.fail(ErrorCode.MISSUSERINFO.getCode(),ErrorCode.MISSUSERINFO.getMsg());
         }
         User user =userMapper.selectByIdOrName(null,userName);
         if( user == null ){
             return BaseResponse.fail(ErrorCode.USERNOTEXIST.getCode(),ErrorCode.USERNOTEXIST.getMsg());
         }
-        if( !user.getPassWord().equals(password) ){
-            return BaseResponse.fail(ErrorCode.INCORRECTPASSWORD.getCode(),ErrorCode.INCORRECTPASSWORD.getMsg());
-        }
-        UserInRedis userInRedis = transferUtils.convertToUserInRedis(user);
-        userInRedis.setOnline(true);
-        //过期时间为120秒
-        JedisClientUtils.setex(String.valueOf(userInRedis.getUserId()),
-                JSON.toJSON(userInRedis).toString(),120 );
-        return BaseResponse.success(user);
+        return BaseResponse.success(JSON.toJSONString(user));
     }
 
+    @Override
+    public Boolean setUserInRedis(String key,User user) {
+        UserInRedis userInRedis = transferUtils.convertToUserInRedis(user);
+        //过期时间为一天
+        String res = JedisClientUtils.setex(key, JSON.toJSON(userInRedis).toString(),24*60*60 );
+        return res != null;
+
+    }
+
+    @Override
+    public BaseResponse updateUserInRedis(String key) {
+        String newKey = token.updateToken(key);
+        String value = JedisClientUtils.get(key);
+        String res = JedisClientUtils.setex(newKey, value,24*60*60 );
+        Long res1 = JedisClientUtils.del(key);
+        log.info("updateUserInRedis new key: {}  value: {} res : {} res1 : {} ",newKey,value,res,res1);
+        if( res != null && res1.equals(1L) ){
+            return BaseResponse.success(value);
+        }
+        return BaseResponse.fail();
+    }
 
     @Override
     public UserInRedis searchUser(Long userId, String userName) {

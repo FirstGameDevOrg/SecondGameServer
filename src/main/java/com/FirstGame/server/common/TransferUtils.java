@@ -16,7 +16,7 @@ public class TransferUtils {
 
     public UserInRedis convertToUserInRedis(User user){
         UserInRedis userInRedis = new UserInRedis();
-        userInRedis.setUserId(user.getUserId());
+        userInRedis.setUserId(user.getUserId() == null ? null : user.getUserId());
         userInRedis.setUserName(user.getUserName());
         userInRedis.setSex(user.getSex() == null ? null : user.getSex());
         userInRedis.setFriends(user.getFriends() != null ? user.getFriends() : "");

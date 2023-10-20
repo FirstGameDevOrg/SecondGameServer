@@ -68,31 +68,6 @@ public class userController {
         }
     }
 
-    /**
-     * 用户登录
-     * @param userName
-     * @param passWord
-     * @return
-     */
-    @RequestMapping(value = "/login", method = POST)
-    public BaseResponse<JSONObject> loginUser(@NonNull String userName, @NonNull  String passWord){
-        log.info("loginUser");
-        BaseResponse baseResponse = userService.checkPassword(userName,passWord);
-        log.info("loginUser response : {}",JSON.toJSON(baseResponse));
-        if( baseResponse.isSuccess() ){
-            JSONObject params = new JSONObject();
-            params.put("RemoteHost",host);
-            params.put("RemotePort",String.valueOf(port));
-            params.put(Token.tokenKey, token.generatedToken(
-                    baseResponse.getData() != null ? (User) baseResponse.getData() : null));
-            log.info("loginUser params : {}",params);
-            return new BaseResponse.Builder<JSONObject>().code(200).msg("登录成功")
-                    .data(params).success(true).build();
-        }else{
-            return new BaseResponse.Builder<JSONObject>().code(500).msg(baseResponse.getMsg())
-                    .data(null).success(false).build();
-        }
-    }
 
     @RequestMapping(value = "/searchUser", method = POST)
     @ResponseBody
