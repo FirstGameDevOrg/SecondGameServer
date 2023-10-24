@@ -22,10 +22,10 @@ public interface UserMapper {
     /**
      * 通过id或者用户名查询
      * @param id
-     * @param name
+     * @param userName
      * @return
      */
-    User selectByIdOrName(Long id, String name);
+    User selectByIdOrName(Long userId, String userName);
 
     /**
      * 更新好友列表

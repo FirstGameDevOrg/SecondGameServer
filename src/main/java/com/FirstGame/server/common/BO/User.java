@@ -23,5 +23,4 @@ public class User implements Serializable {
     private Integer sex;
     private String emailAddress;
     private String phone;
-    private String friends;
 }

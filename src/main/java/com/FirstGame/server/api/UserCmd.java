@@ -3,10 +3,18 @@ package com.FirstGame.server.api;
 public interface UserCmd {
     /** 主路由 */
     int cmd = 1;
-    /** 子路由 注册 */
+    /** 子路由 */
     int registerUser = 0;
-    /** 子路由 jackson */
+
     int loginUser = 1;
-    /** 子路由 list */
-    int list = 2;
+
+    int searchUser = 2;
+
+    int addUser = 3;
+
+    int broadcastMsg = 4;
+
+    int agreeAddUser = 5;
+
+
 }

@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TransferUtils {
 
-    public UserInRedis convertToUserInRedis(User user){
+    public UserInRedis convertToUserInRedis(User user,String token){
         UserInRedis userInRedis = new UserInRedis();
         userInRedis.setUserId(user.getUserId() == null ? null : user.getUserId());
         userInRedis.setUserName(user.getUserName());
         userInRedis.setSex(user.getSex() == null ? null : user.getSex());
-        userInRedis.setFriends(user.getFriends() != null ? user.getFriends() : "");
+        userInRedis.setToken(token);
         log.info("convertToUserInRedis Before User : {}, After UserInRedis : {} ", JSON.toJSON(user),JSON.toJSON(userInRedis));
         return userInRedis;
     }

@@ -1,6 +1,7 @@
 package com.FirstGame.server.service;
 
 import com.FirstGame.server.common.BO.User;
+import com.FirstGame.server.common.BO.UserFriends;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
 
@@ -23,11 +24,11 @@ public interface UserService {
 
     /**
      * 设置key所对的用户信息
-     * @param key
+     * @param token
      * @param user
      * @return
      */
-    public Boolean setUserInRedis(String key,User user);
+    public Boolean setUserInRedis(String token, User user);
 
     /**
      * 删除旧key
@@ -35,7 +36,7 @@ public interface UserService {
      * @param key
      * @return
      */
-    public BaseResponse updateUserInRedis(String key);
+    public BaseResponse updateUserInRedis(Long userId);
 
     /**
      * 查找用户
@@ -54,5 +55,27 @@ public interface UserService {
      */
     public Boolean addUser(Long userId,Long friendId);
 
+    /**
+     * 注册用户
+     * @param user
+     * @return
+     */
     public BaseResponse insertUser(User user);
+
+    /**
+     * 添加好友
+     * @param record
+     * @return
+     */
+    public BaseResponse insertUserFriend(UserFriends record);
+
+    /**
+     * 更新好友关系表
+     * @param record
+     * @return
+     */
+    public BaseResponse updateByUserIdAndFriendId(UserFriends record);
+
+
+
 }

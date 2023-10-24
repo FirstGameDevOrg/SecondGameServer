@@ -16,7 +16,9 @@ public class HallLogicServer extends AbstractBrokerClientStartup {
         // 业务框架构建器 配置
         var config = new BarSkeletonBuilderParamConfig()
                 // 扫描 action 类所在包
-                .scanActionPackage(UserAction.class);
+                .scanActionPackage(UserAction.class)
+                // 开启广播日志，默认是关闭的
+                .setBroadcastLog(true);
 
         // 业务框架构建器
         var builder = config.createBuilder();

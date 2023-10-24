@@ -12,7 +12,6 @@
         <result property="sex" column="sex"/>
         <result property="emailAddress" column="email_address"/>
         <result property="phone" column="phone"/>
-        <result property="friends" column="friends"/>
     </resultMap>
     <select id = "selectAll" resultMap="userResultMap">
         select * from user
@@ -27,11 +26,11 @@
     <select id="selectByIdOrName" resultMap="userResultMap">
         select * from user
         <where>
-            <if test = "id != null">
-                and user_id = #{id}
+            <if test = "userId != null">
+                and user_id = #{userId}
             </if>
-            <if test = "name != null">
-                and user_name = #{name}
+            <if test = "userName != null">
+                and user_name = #{userName}
             </if>
         </where>
     </select>

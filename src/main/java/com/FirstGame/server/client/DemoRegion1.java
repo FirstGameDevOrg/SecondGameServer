@@ -20,8 +20,7 @@ package com.FirstGame.server.client;
 
 
 import com.FirstGame.server.api.UserCmd;
-import com.FirstGame.server.common.BO.User;
-import com.FirstGame.server.common.BO.UserLogin;
+import com.FirstGame.server.common.BO.*;
 import com.FirstGame.server.common.BaseResponse;
 import com.iohao.game.common.kit.log.IoGameLoggerFactory;
 import com.iohao.game.external.client.AbstractInputCommandRegion;
@@ -41,18 +40,18 @@ public class DemoRegion1 extends AbstractInputCommandRegion {
 
         // 模拟请求参数
         User request = new User();
-        request.setUserName("IoGame1");
-        request.setPassWord("IoGame1");
+        request.setUserName("IoGame");
+        request.setPassWord("IoGame");
         request.setSex(1);
 
-        // ---------------- 模拟请求 1-0 ----------------
+        // ---------------- 模拟请求 1-0 注册 ----------------
         ofCommand(UserCmd.registerUser).callback(BaseResponse.class, result -> {
             BaseResponse value = result.getValue();
             log.info("client1 : registerUser value : {}", value);
         }).setDescription("register").setRequestData(request);
 
 
-        // ---------------- 模拟请求 1-1 ----------------
+        // ---------------- 模拟请求 1-1 登录 ----------------
         UserLogin userLogin = new UserLogin();
         userLogin.setUserName("IoGame");
         userLogin.setPassWord("IoGame");
@@ -61,6 +60,29 @@ public class DemoRegion1 extends AbstractInputCommandRegion {
             BaseResponse value = result.getValue();
             log.info("client1 : loginUser value : {}", value);
         }).setDescription("loginUser").setRequestData(userLogin);
+
+        // ---------------- 模拟请求 1-2 搜索好友 ----------------
+        SimpleUser simpleUser = new SimpleUser();
+        simpleUser.setUserName("IoGame1");
+        simpleUser.setUserId(null);
+
+        ofCommand(UserCmd.searchUser).callback(UserInRedis.class, result -> {
+            UserInRedis value = result.getValue();
+            log.info("client1 : searchUser value : {}", value);
+        }).setDescription("searchUser").setRequestData(simpleUser);
+
+        // ---------------- 模拟请求 1-3 添加好友 ----------------
+        SimpleUserFriend userFriends = new SimpleUserFriend();
+        userFriends.setUserId(6L);
+        userFriends.setFriendId(7L);
+
+        ofCommand(UserCmd.addUser).callback(BaseResponse.class, result -> {
+            BaseResponse value = result.getValue();
+            log.info("client1 : addUser value : {}", value);
+        }).setDescription("addUser").setRequestData(userFriends);
+
+
+
 
     }
 }

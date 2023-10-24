@@ -2,6 +2,7 @@ package com.FirstGame.server.service.Imp;
 
 
 import com.FirstGame.server.common.BO.User;
+import com.FirstGame.server.common.BO.UserFriends;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
@@ -9,6 +10,7 @@ import com.FirstGame.server.common.Token;
 import com.FirstGame.server.common.TransferUtils;
 import com.FirstGame.server.repository.JedisClientUtils;
 import com.FirstGame.server.repository.UserMapper;
+import com.FirstGame.server.repository.UserFriendsMapper;
 import com.FirstGame.server.service.UserService;
 import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     private Token token;
+
+    @Autowired
+    private UserFriendsMapper userfriendsMapper;
 
     @Override
     public int checkUser(User user) {
@@ -54,23 +59,23 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Boolean setUserInRedis(String key,User user) {
-        UserInRedis userInRedis = transferUtils.convertToUserInRedis(user);
+    public Boolean setUserInRedis(String token,User user) {
+        UserInRedis userInRedis = transferUtils.convertToUserInRedis(user,token);
         //过期时间为一天
-        String res = JedisClientUtils.setex(key, JSON.toJSON(userInRedis).toString(),24*60*60 );
+        String res = JedisClientUtils.setex(user.getUserId().toString(), JSON.toJSON(userInRedis).toString(),24*60*60 );
         return res != null;
 
     }
 
     @Override
-    public BaseResponse updateUserInRedis(String key) {
-        String newKey = token.updateToken(key);
-        String value = JedisClientUtils.get(key);
-        String res = JedisClientUtils.setex(newKey, value,24*60*60 );
-        Long res1 = JedisClientUtils.del(key);
-        log.info("updateUserInRedis new key: {}  value: {} res : {} res1 : {} ",newKey,value,res,res1);
-        if( res != null && res1.equals(1L) ){
-            return BaseResponse.success(value);
+    public BaseResponse updateUserInRedis(Long userId) {
+        String newToken = token.generatedToken(userId);
+        UserInRedis value  = JSON.parseObject(JedisClientUtils.get(userId.toString()),UserInRedis.class);
+        value.setToken(newToken);
+        String res = JedisClientUtils.setex(userId.toString(), JSON.toJSONString(value),24*60*60 );
+        log.info("updateUserInRedis new key: {}  value: {} res : {}  ",userId,value,res);
+        if( res != null ){
+            return BaseResponse.success(newToken);
         }
         return BaseResponse.fail();
     }
@@ -86,8 +91,7 @@ public class UserServiceImp implements UserService {
             if( user == null ){
                 return null;
             }
-            userInRedis = transferUtils.convertToUserInRedis(user);
-            userInRedis.setOnline(false);
+            userInRedis = transferUtils.convertToUserInRedis(user,null);
             JedisClientUtils.setex(String.valueOf(userInRedis.getUserId()),
                     JSON.toJSON(userInRedis).toString(),120 );
         }
@@ -108,6 +112,24 @@ public class UserServiceImp implements UserService {
     @Override
     public BaseResponse insertUser(User user) {
         int res = userMapper.insertUser(user);
+        if( res == 0 ){
+            return BaseResponse.fail();
+        }
+        return BaseResponse.success();
+    }
+
+    @Override
+    public BaseResponse insertUserFriend(UserFriends record) {
+        int res = userfriendsMapper.insertSelective(record);
+        if( res == 0 ){
+            return BaseResponse.fail();
+        }
+        return BaseResponse.success();
+    }
+
+    @Override
+    public BaseResponse updateByUserIdAndFriendId(UserFriends record) {
+        int res = userfriendsMapper.updateByUserIdAndFriendId(record);
         if( res == 0 ){
             return BaseResponse.fail();
         }
