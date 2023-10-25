@@ -1,6 +1,6 @@
 package com.FirstGame.server.client;
 
-import com.FirstGame.server.api.UserCmd;
+import com.FirstGame.server.action.user.UserCmd;
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BO.UserLogin;

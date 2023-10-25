@@ -1,4 +1,4 @@
-package com.FirstGame.server.api;
+package com.FirstGame.server.action.user;
 
 public interface UserCmd {
     /** 主路由 */

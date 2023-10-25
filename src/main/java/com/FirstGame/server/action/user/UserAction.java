@@ -1,4 +1,4 @@
-package com.FirstGame.server.api;
+package com.FirstGame.server.action.user;
 
 import com.FirstGame.server.common.BO.*;
 import com.FirstGame.server.common.BaseResponse;

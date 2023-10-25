@@ -1,6 +1,6 @@
 package com.FirstGame.server.logic;
 
-import com.FirstGame.server.api.UserAction;
+import com.FirstGame.server.action.user.UserAction;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.BarSkeletonBuilderParamConfig;
 import com.iohao.game.action.skeleton.core.flow.interal.DebugInOut;

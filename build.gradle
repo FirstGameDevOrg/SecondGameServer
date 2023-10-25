@@ -74,6 +74,11 @@ dependencies {
 	implementation "ch.qos.logback:logback-classic:$logbackVersion"
 	// 压测&模拟客户端请求模块
 	implementation "com.iohao.game:light-client:$ioGameVersion"
+	//房间模块
+	implementation "com.iohao.game:light-game-room:$ioGameVersion"
+	implementation "com.iohao.game:light-profile:$ioGameVersion"
+	implementation "com.iohao.game:light-timer-task:$ioGameVersion"
+	implementation "com.iohao.game:light-domain-event:$ioGameVersion"
 
 	//jprotobuf
 	implementation ("com.baidu:jprotobuf:$jprotobufVersion"){
@@ -81,6 +86,11 @@ dependencies {
 	}
 	//jprotobuf-precompile-plugin
 	implementation "com.baidu:jprotobuf-precompile-plugin:$precompilePluginVersion"
+
+	//用于生成分布式唯一的ID
+	implementation 'cn.hutool:hutool-all:5.8.22'
+
+
 
 
 

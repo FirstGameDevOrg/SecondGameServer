@@ -19,7 +19,7 @@
 package com.FirstGame.server.client;
 
 
-import com.FirstGame.server.api.UserCmd;
+import com.FirstGame.server.action.user.UserCmd;
 import com.FirstGame.server.common.BO.*;
 import com.FirstGame.server.common.BaseResponse;
 import com.iohao.game.common.kit.log.IoGameLoggerFactory;
