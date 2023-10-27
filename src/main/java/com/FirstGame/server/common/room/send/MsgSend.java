@@ -17,23 +17,34 @@
 package com.FirstGame.server.common.room.send;
 
 import com.FirstGame.server.action.room.RoomCmd;
+import com.FirstGame.server.common.BO.RoomMsg;
+import com.FirstGame.server.common.BO.SimpleUserFriend;
 import com.iohao.game.action.skeleton.annotation.DocActionSend;
 import com.iohao.game.action.skeleton.annotation.DocActionSends;
+import com.iohao.game.action.skeleton.core.ActionCommand;
+import com.iohao.game.action.skeleton.core.CmdInfo;
 import com.iohao.game.action.skeleton.core.flow.FlowContext;
 import com.iohao.game.widget.light.room.AbstractFlowContextSend;
 import lombok.extern.slf4j.Slf4j;
+import org.jctools.maps.NonBlockingHashSet;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @DocActionSends({
         //推送相关文档
-        @DocActionSend(cmd = RoomCmd.cmd, subCmd = RoomCmd.enterRoom, dataClass = Long.class),
-        @DocActionSend(cmd = RoomCmd.cmd, subCmd = RoomCmd.endRound, dataClass = byte[].class)
+        @DocActionSend(cmd = RoomCmd.cmd, subCmd = RoomCmd.enterRoom, dataClass = RoomMsg.class),
+        @DocActionSend(cmd = RoomCmd.cmd, subCmd = RoomCmd.endRound, dataClass = RoomMsg.class),
+        @DocActionSend(cmd = RoomCmd.cmd, subCmd = RoomCmd.invitePlayer, dataClass = SimpleUserFriend.class)
 })
 public class MsgSend extends AbstractFlowContextSend {
 
     public MsgSend(FlowContext flowContext) {
         super(flowContext);
     }
+
+
 
     @Override
     public void send() {
@@ -46,6 +57,10 @@ public class MsgSend extends AbstractFlowContextSend {
          *
          * 
          */
+        CmdInfo cmdInfo = flowContext.getActionCommand().getCmdInfo();
+        ActionCommand actionCommand = flowContext.getActionCommand();
+
+
         this.execute();
     }
 }

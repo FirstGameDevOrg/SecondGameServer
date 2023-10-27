@@ -1,5 +1,6 @@
 package com.FirstGame.server.client;
 
+import com.FirstGame.server.action.room.RoomCmd;
 import com.FirstGame.server.action.user.UserCmd;
 import com.FirstGame.server.common.BO.User;
 import com.FirstGame.server.common.BO.UserInRedis;
@@ -10,8 +11,10 @@ import com.iohao.game.common.kit.log.IoGameLoggerFactory;
 import com.iohao.game.external.client.AbstractInputCommandRegion;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 
-public class DemoRegion2 extends AbstractInputCommandRegion  {
+
+public class UserRegion2 extends AbstractInputCommandRegion  {
     static final Logger log = IoGameLoggerFactory.getLoggerCommonStdout();
 
     @Override
@@ -34,8 +37,8 @@ public class DemoRegion2 extends AbstractInputCommandRegion  {
 
         // ---------------- 模拟请求 1-1 ----------------
         UserLogin userLogin = new UserLogin();
-        userLogin.setUserName("IoGame1");
-        userLogin.setPassWord("IoGame1");
+        userLogin.setUserName("test1");
+        userLogin.setPassWord("test1");
 
 
         ofCommand(UserCmd.loginUser).callback(BaseResponse.class, result -> {
@@ -43,11 +46,6 @@ public class DemoRegion2 extends AbstractInputCommandRegion  {
             log.info("client2 : loginUser value : {}", value);
         }).setDescription("loginUser").setRequestData(userLogin);
 
-        //---------------- 广播监听 ---------------------------
-        listenBroadcast(BaseResponse.class, result -> {
-            BaseResponse value = result.getValue();
-            log.info("broadcastMessage ========== \n{}", value);
-        }, UserCmd.broadcastMsg, "收到添加好友信息");
 
         // ---------------- 模拟请求 1-5 同意添加好友 ----------------
         UserInRedis userInRedis = new UserInRedis();
@@ -60,7 +58,11 @@ public class DemoRegion2 extends AbstractInputCommandRegion  {
             log.info("client2 : agreeAddUser value : {}", value);
         }).setDescription("agreeAddUser").setRequestData(isAgree);
 
-
+        //---------------- 接收数据 ---------------------------
+        listenBroadcast(BaseResponse.class, result -> {
+            BaseResponse value = result.getValue();
+            log.info("client2 receive ========== \n{}", value);
+        }, UserCmd.broadcastMsg, "广播数据");
 
     }
 }

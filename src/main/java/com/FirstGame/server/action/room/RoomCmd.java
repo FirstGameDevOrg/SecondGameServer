@@ -10,4 +10,9 @@ public interface RoomCmd {
     /**结束当前回合*/
     int endRound = 1;
 
+    /**邀请玩家*/
+    int invitePlayer = 2;
+
+    int broadcastMsg = 3;
+
 }

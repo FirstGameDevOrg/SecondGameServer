@@ -12,6 +12,7 @@ public enum ErrorCode implements MsgExceptionInfo {
     USERNOTEXIST(1004,"用户不存在"),
     INCORRECTUSERINFO(1005,"用户名或者密码错误"),
     ACCOUNTONLINE(1006,"账户已经登录在线"),
+    NPE(1007,"空指针错误")
     ;
 
     private final int code;

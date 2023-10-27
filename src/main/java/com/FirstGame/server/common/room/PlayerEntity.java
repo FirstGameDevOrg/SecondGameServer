@@ -14,7 +14,6 @@ public class PlayerEntity extends AbstractPlayer {
     @Serial
     private static final long serialVersionUID = 774219456031784563L;
 
-
     /** 房间 id */
     long roomId;
 }

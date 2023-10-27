@@ -1,6 +1,7 @@
 package com.FirstGame.server;
 
 import com.FirstGame.server.logic.HallLogicServer;
+import com.FirstGame.server.logic.RoomLogicServer;
 import com.FirstGame.server.repository.JedisUtils;
 import com.iohao.game.action.skeleton.ext.spring.ActionFactoryBeanForSpring;
 import com.iohao.game.external.core.netty.simple.NettySimpleHelper;
@@ -25,9 +26,10 @@ public class ServerApplication {
 		int port = 10100;
 		// 逻辑服
 		var hallLogicServer = new HallLogicServer();
+		var roomLogicServer = new RoomLogicServer();
 		// 启动游戏对外服、Broker（游戏网关）、游戏逻辑服
 		// 这三部分在一个进程中相互使用内存通信
-		NettySimpleHelper.run(port, List.of(hallLogicServer));
+		NettySimpleHelper.run(port, List.of(hallLogicServer,roomLogicServer));
 
 
 

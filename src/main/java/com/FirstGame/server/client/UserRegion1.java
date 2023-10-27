@@ -19,18 +19,19 @@
 package com.FirstGame.server.client;
 
 
+import com.FirstGame.server.action.room.RoomCmd;
 import com.FirstGame.server.action.user.UserCmd;
 import com.FirstGame.server.common.BO.*;
 import com.FirstGame.server.common.BaseResponse;
+import com.alibaba.fastjson2.JSON;
 import com.iohao.game.common.kit.log.IoGameLoggerFactory;
 import com.iohao.game.external.client.AbstractInputCommandRegion;
 import org.slf4j.Logger;
 
-/**
- * @author 渔民小镇
- * @date 2023-07-17
- */
-public class DemoRegion1 extends AbstractInputCommandRegion {
+import java.io.IOException;
+
+
+public class UserRegion1 extends AbstractInputCommandRegion {
     static final Logger log = IoGameLoggerFactory.getLoggerCommonStdout();
 
     @Override
@@ -81,7 +82,11 @@ public class DemoRegion1 extends AbstractInputCommandRegion {
             log.info("client1 : addUser value : {}", value);
         }).setDescription("addUser").setRequestData(userFriends);
 
-
+        //---------------- 接收数据 ---------------------------
+        listenBroadcast(BaseResponse.class, result -> {
+            BaseResponse value = result.getValue();
+            log.info("client1 receive ========== \n{}", value);
+        }, UserCmd.broadcastMsg, "广播数据");
 
 
     }

@@ -35,7 +35,8 @@ public class DemoClient1 {
 
         // 模拟请求数据
         List<InputCommandRegion> inputCommandRegions = List.of(
-                new DemoRegion1()
+                new UserRegion1(),
+                new RoomRegion1()
         );
 
         // 启动模拟客户端
