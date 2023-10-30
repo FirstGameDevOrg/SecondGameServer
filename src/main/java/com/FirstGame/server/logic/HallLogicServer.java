@@ -1,8 +1,11 @@
 package com.FirstGame.server.logic;
 
 import com.FirstGame.server.action.user.UserAction;
+import com.FirstGame.server.common.ErrorCode;
 import com.iohao.game.action.skeleton.core.BarSkeleton;
 import com.iohao.game.action.skeleton.core.BarSkeletonBuilderParamConfig;
+import com.iohao.game.action.skeleton.core.doc.BarSkeletonDoc;
+import com.iohao.game.action.skeleton.core.exception.ActionErrorEnum;
 import com.iohao.game.action.skeleton.core.flow.interal.DebugInOut;
 import com.iohao.game.bolt.broker.client.AbstractBrokerClientStartup;
 import com.iohao.game.bolt.broker.core.client.BrokerAddress;
@@ -17,6 +20,8 @@ public class HallLogicServer extends AbstractBrokerClientStartup {
         var config = new BarSkeletonBuilderParamConfig()
                 // 扫描 action 类所在包
                 .scanActionPackage(UserAction.class)
+                // 错误码-用于文档的生成
+                .addErrorCode(ErrorCode.values())
                 // 开启广播日志，默认是关闭的
                 .setBroadcastLog(true);
 
@@ -26,7 +31,13 @@ public class HallLogicServer extends AbstractBrokerClientStartup {
         // 添加控制台输出插件
         builder.addInOut(new DebugInOut());
 
-        return builder.build();
+        // 构建业务框架
+        // 在构建业务框架时，会把 BarSkeleton 对象添加到 BarSkeletonDoc 中
+        BarSkeleton barSkeleton = builder.build();
+        // 生成游戏文档
+        BarSkeletonDoc.me().buildDoc();
+
+        return barSkeleton;
     }
 
     @Override

@@ -1,18 +1,31 @@
 package com.FirstGame.server.common;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import com.iohao.game.widget.light.protobuf.ProtoFileMerge;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
 @ProtobufClass
+@ProtoFileMerge(fileName = "User.proto", filePackage = "User.proto")
 public class BaseResponse implements Serializable {
-
-    private Boolean success;
-    private Integer code;
-    private String msg;
-    private String data;
+    /**
+     * 是否成功
+     */
+    Boolean success;
+    /**
+     * 错误码
+     */
+    Integer code;
+    /**
+     * 解释信息
+     */
+    String msg;
+    /**
+     * 数据
+     */
+    String data;
 
     public Boolean isSuccess() {
         return success;

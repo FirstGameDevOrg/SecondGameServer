@@ -1,0 +1,11 @@
+syntax = "proto3";
+package Room.proto;
+
+// {classComment}
+message RoomMsg {
+  // 房间id
+  int64 roomId = 1;
+  // 传输数据
+  bytes data = 2;
+}
+

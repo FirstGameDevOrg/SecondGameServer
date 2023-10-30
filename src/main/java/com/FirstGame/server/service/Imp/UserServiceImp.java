@@ -6,7 +6,7 @@ import com.FirstGame.server.common.BO.UserFriends;
 import com.FirstGame.server.common.BO.UserInRedis;
 import com.FirstGame.server.common.BaseResponse;
 import com.FirstGame.server.common.ErrorCode;
-import com.FirstGame.server.common.Token;
+import com.FirstGame.server.common.token.Token;
 import com.FirstGame.server.common.TransferUtils;
 import com.FirstGame.server.repository.JedisClientUtils;
 import com.FirstGame.server.repository.UserMapper;

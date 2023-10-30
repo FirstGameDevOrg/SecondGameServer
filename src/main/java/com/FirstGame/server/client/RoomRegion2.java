@@ -1,7 +1,6 @@
 package com.FirstGame.server.client;
 
 import com.FirstGame.server.action.room.RoomCmd;
-import com.FirstGame.server.action.user.UserCmd;
 import com.FirstGame.server.common.BO.RoomMsg;
 import com.FirstGame.server.common.BaseResponse;
 import com.alibaba.fastjson2.JSON;

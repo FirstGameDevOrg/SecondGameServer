@@ -87,6 +87,9 @@ dependencies {
 	//jprotobuf-precompile-plugin
 	implementation "com.baidu:jprotobuf-precompile-plugin:$precompilePluginVersion"
 
+	implementation "com.iohao.game:light-jprotobuf:$ioGameVersion"
+
+
 	//用于生成分布式唯一的ID
 	implementation 'cn.hutool:hutool-all:5.8.22'
 

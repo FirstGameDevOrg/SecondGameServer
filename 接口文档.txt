@@ -1,0 +1,57 @@
+==================== 游戏文档格式说明 ====================
+https://www.yuque.com/iohao/game/irth38#cJLdC
+
+==================== UserAction  ====================
+路由: 1 - 0  --- 【】 --- 【UserAction:1】【registerUser】
+    方法参数: User 
+    方法返回值: BaseResponse 
+
+
+路由: 1 - 1  --- 【登录逻辑-快速登陆
+                  存在token,验证是否一致,redis中数据更新储存时间12h
+                  不存在则正常检查账户密码登录】 --- 【UserAction:1】【loginUser】
+    方法参数: UserLogin
+    方法返回值: BaseResponse
+
+路由: 1 - 2  --- 【搜索好友】 --- 【UserAction:1】【searchUser】
+    方法参数: UserLogin
+    方法返回值: UserInRedis
+
+路由: 1 - 3  --- 【添加好友】 --- 【UserAction:1】【addUser】
+    方法参数: SimpleUserFriend
+    方法返回值: UserInRedis
+
+路由: 1 - 5  --- 【同意添加好友】 --- 【UserAction:1】【agreeAddUser】
+    方法参数: BaseResponse
+    方法返回值: BaseResponse
+
+==================== RoomAction  ====================
+路由: 2 - 0  --- 【】 --- 【RoomAction:1】【enterRoom】
+    方法参数: SimpleUser
+    方法返回值: BaseResponse 
+
+路由: 2 - 1  --- 【结束回合】 --- 【RoomAction:1】【endRound】
+    方法参数: RoomMsg
+    方法返回值: BaseResponse
+
+路由: 2 - 2  --- 【邀请好友进入房间】 --- 【RoomAction:1】【invitePlayer】
+    方法参数: SimpleUserFriend
+    方法返回值: BaseResponse
+==================== 错误码 ====================
+ -1008 : 绑定的游戏逻辑服不存在 
+ -1007 : 强制玩家下线 
+ -1006 : 数据不存在 
+ -1005 : class 不存在 
+ -1004 : 请先登录 
+ -1003 : 心跳超时相关 
+ -1002 : 路由错误 
+ -1001 : 参数验错误 
+ -1000 : 系统其它错误 
+ 1 : 成功 
+ 1001 : 数据库错误 
+ 1002 : 缺失用户名或者密码 
+ 1003 : 用户名重复 
+ 1004 : 用户不存在 
+ 1005 : 用户名或者密码错误 
+ 1006 : 账户已经登录在线 
+ 1007 : 空指针错误 

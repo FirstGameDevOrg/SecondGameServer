@@ -1,9 +1,12 @@
 package com.FirstGame.server.common.BO;
 
 import com.baidu.bjf.remoting.protobuf.annotation.ProtobufClass;
+import com.iohao.game.widget.light.protobuf.ProtoFileMerge;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 /**
  * @author Ankle
@@ -12,10 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ProtobufClass
+@FieldDefaults(level = AccessLevel.PUBLIC)
+@ProtoFileMerge(fileName = "User.proto", filePackage = "User.proto")
 public class UserInRedis {
-    private Long userId;
-    private String userName;
+    Long userId;
+    String userName;
     //0:女 1:男
-    private Integer sex;
-    private String token;
+    Integer sex;
+    String token;
 }

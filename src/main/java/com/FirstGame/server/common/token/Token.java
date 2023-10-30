@@ -1,9 +1,9 @@
-package com.FirstGame.server.common;
+package com.FirstGame.server.common.token;
 
 import com.FirstGame.server.common.BO.User;
+import com.FirstGame.server.common.token.AES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class Token {

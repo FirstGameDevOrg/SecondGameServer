@@ -1,4 +1,4 @@
-package com.FirstGame.server.common;
+package com.FirstGame.server.common.token;
 
 import org.springframework.stereotype.Service;
 
